@@ -3,7 +3,6 @@ enum rowStates {
   expanding = 1,
   expanded = 2,
   collapsing = 3,
-  collapsed = 4,
 }
 
 export { rowStates };

@@ -4,6 +4,18 @@
 
 .instts-main-app-window {
   margin-left: 70px;
+  margin-right: 68px;
   margin-top: 74px;
-  width: calc(100% - 140px)
+  width: calc(100% - 140px);
+  min-width: 1200px;
+}
+
+.pointer-events-none-w-children,
+.pointer-events-none-w-children * {
+  pointer-events: none;
+  user-select: none;
+}
+
+.flex-2 {
+  flex: 2 2 0%;
 }
