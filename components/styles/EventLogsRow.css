@@ -1,0 +1,8 @@
+.instts-event-row-container-main {
+    transition: height 300ms ease-in-out, width 300ms ease-in-out, margin-left 300ms ease-in-out, border 300ms ease-in-out;
+    border-radius: 12px;
+}
+.instts-event-row-container-large {
+    margin-left: -18px;
+    width: calc(100% + 36px)
+}

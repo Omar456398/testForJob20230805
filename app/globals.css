@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.instts-main-app-window {
+  margin-left: 70px;
+  margin-top: 74px;
+  width: calc(100% - 140px)
+}
