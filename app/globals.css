@@ -7,7 +7,7 @@
   margin-right: 68px;
   margin-top: 74px;
   width: calc(100% - 140px);
-  min-width: 1200px;
+  min-width: 1080px;
 }
 
 .pointer-events-none-w-children,

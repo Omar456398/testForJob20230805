@@ -17,7 +17,7 @@ export default function EventLogsRow(props: {
   const [currStateTimeOut, setCurrStateTimeOut] = useState(0 as any);
   function containerClasses(containerState: rowStates) {
     let returnClasses =
-      "overflow-hidden bg-white instts-event-row-container-main rounded-xl border border-solid";
+      "cursor-pointer overflow-hidden bg-white instts-event-row-container-main rounded-xl border border-solid";
     if (containerState === rowStates.idle) {
       returnClasses += " border-transparent px-6 py-4";
     } else {
@@ -58,7 +58,7 @@ export default function EventLogsRow(props: {
     <div
       className={containerClasses(currState)}
       onClick={() => {
-        props.onClick(props.data.id === props.currFocus ? '-1' : props.data.id);
+        props.onClick(props.data.id === props.currFocus ? "-1" : props.data.id);
       }}
     >
       <div
@@ -79,8 +79,13 @@ export default function EventLogsRow(props: {
         <div className="flex">
           <div className="flex-1 w-2/6">
             {isStateSmall ? (
-              <div className="overflow-hidden text-ellipsis">
-                {props.data.actor_email}
+              <div className="flex">
+                <div className="rounded-full bg-gradient-to-br from-orange-400 to-fuchsia-600 px-2 py-2 h-8 w-8 mr-3 text-center text-white font-bold -mt-1 text-xs">
+                  {(props.data.actor_name?.[0] || "").toUpperCase()}
+                </div>
+                <div className="overflow-hidden text-ellipsis">
+                  {props.data.actor_email}
+                </div>
               </div>
             ) : (
               <>
@@ -155,7 +160,7 @@ export default function EventLogsRow(props: {
                     />
                   </>
                 ) : (
-                  <EmptyStringGray length={18} />
+                  <EmptyStringGray length={58} />
                 )}
               </div>
               <div className="flex-1 w-2/6">
@@ -165,7 +170,7 @@ export default function EventLogsRow(props: {
                     <SubDataEntry title="ID" data={props.data.target_id} />
                   </>
                 ) : (
-                  <EmptyStringGray length={18} />
+                  <EmptyStringGray length={58} />
                 )}
               </div>
               <div className="flex-1" />
