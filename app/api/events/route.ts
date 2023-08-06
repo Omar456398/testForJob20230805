@@ -26,14 +26,14 @@ function reshapeEvent(event: { [key: string]: any }) {
     target_id: event.target?.id,
     target_name: event.target?.name,
   };
-  if(event.x_request_id || event.description|| event.redirect) {
+  if (event.x_request_id || event.description || event.redirect) {
     eventReshaped.metadata = {
       x_request_id: event.x_request_id,
       description: event.description,
-      redirect: event.redirect
-    }
+      redirect: event.redirect,
+    };
   }
-  return eventReshaped
+  return eventReshaped;
 }
 
 function checkBody(
@@ -64,8 +64,9 @@ export async function GET(request: NextRequest) {
   const page = Number(request.nextUrl.searchParams.get("page") || 0);
   const pastCount = Number(request.nextUrl.searchParams.get("past_count") || 0);
 
-  const itemsPerPage = 10
-  let skip = page * itemsPerPage, take = itemsPerPage + 1
+  const itemsPerPage = 10;
+  let skip = page * itemsPerPage,
+    take = itemsPerPage + 1;
 
   let whereClause: any = {};
   if (searchQuery) {
@@ -118,8 +119,8 @@ export async function GET(request: NextRequest) {
   let eventsCount = await prismaClient.events.count({
     where: whereClause,
   });
-  if(pastCount && pastCount < eventsCount) {
-    skip += eventsCount - pastCount
+  if (pastCount && pastCount < eventsCount) {
+    skip += eventsCount - pastCount;
   }
   let eventsFiltered = await prismaClient.events.findMany({
     include: {
@@ -128,14 +129,21 @@ export async function GET(request: NextRequest) {
       },
       target: true,
     },
+    orderBy: {
+      occurred_at: 'desc'
+    },
     where: whereClause,
     skip,
-    take
+    take,
   });
-  return NextResponse.json({
-    events: eventsFiltered.slice(0, 10).map(item => reshapeEvent(item)),
-    isNext: !!eventsFiltered[10]
-  }, { status: 200 });
+  return NextResponse.json(
+    {
+      events: eventsFiltered.slice(0, 10).map((item) => reshapeEvent(item)),
+      isNext: !!eventsFiltered[10],
+      count: eventsCount,
+    },
+    { status: 200 }
+  );
 }
 
 export async function POST(request: NextRequest) {

@@ -15,10 +15,11 @@ export default function SearchBar(props: {
         placeholder="Search name, email or action..."
         value={currSearch}
         onChange={({ target }) => {
-          setCurrSearch(target.value?.trim() ? target.value : "");
-          props.onStartSearch()
-          clearTimeout(searchTimeout)
-          setSearchTimeout(setTimeout(props.onSearch(currSearch), 1000))
+          const currSearchNew = target.value?.trim() ? target.value : ""
+          setCurrSearch(currSearchNew);
+          props.onStartSearch();
+          clearTimeout(searchTimeout);
+          setSearchTimeout(setTimeout(() => props.onSearch(currSearchNew), 1000));
         }}
       />
     </div>
