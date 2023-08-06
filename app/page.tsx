@@ -76,7 +76,7 @@ export default function Home() {
     <div className="w-full">
       <div className="instts-main-app-window rounded-2xl border border-solid border-gray-100 overflow-visible">
         <div className="bg-gray-100 rounded-t-2xl">
-          <SearchBar onSearch={() => {}} />
+          <SearchBar onSearch={() => {}} onStartSearch={() => {}} />
           <div className="flex px-6 pointer-events-none-w-children">
             <div className="flex-1 font-bold py-3 text-gray-500">ACTOR</div>
             <div className="flex-1 font-bold py-3 text-gray-500">ACTION</div>

@@ -1,0 +1,41 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./db.db"
+}
+
+model Groups {
+  id   String @id @default(cuid())
+  name String
+  users Users[]
+}
+
+model Users {
+  id       String @id @default(cuid())
+  name     String
+  email    String
+  events_carried      Events[] @relation(name: "events_carried")
+  events_affected     Events[] @relation(name: "events_affecting")
+  group_id    String
+  group    Groups @relation(fields: [group_id], references: [id])
+}
+
+model Events {
+  id       String @id @default(cuid())
+  name String
+  location String
+  occurred_at String
+  redirect String?
+  description String?
+  x_request_id String?
+  actor_id String
+  target_id String?
+  actor    Users @relation(name: "events_carried", fields: [actor_id], references: [id])
+  target    Users? @relation(name: "events_affecting", fields: [target_id], references: [id])
+}

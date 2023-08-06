@@ -1,8 +1,12 @@
 "use client";
 import { useState } from "react";
 
-export default function SearchBar(props: { onSearch: Function }) {
+export default function SearchBar(props: {
+  onStartSearch: Function;
+  onSearch: Function;
+}) {
   const [currSearch, setCurrSearch] = useState("");
+  const [searchTimeout, setSearchTimeout] = useState(0 as any);
   return (
     <div className="pt-5 px-6">
       <input
@@ -11,7 +15,10 @@ export default function SearchBar(props: { onSearch: Function }) {
         placeholder="Search name, email or action..."
         value={currSearch}
         onChange={({ target }) => {
-          setCurrSearch(target.value || "");
+          setCurrSearch(target.value?.trim() ? target.value : "");
+          props.onStartSearch()
+          clearTimeout(searchTimeout)
+          setSearchTimeout(setTimeout(props.onSearch(currSearch), 1000))
         }}
       />
     </div>
