@@ -61,12 +61,13 @@ export async function GET(request: NextRequest) {
   const actorID = request.nextUrl.searchParams.get("actor_id");
   const actionID = request.nextUrl.searchParams.get("action_id");
   const targetID = request.nextUrl.searchParams.get("target_id");
-  const page = Number(request.nextUrl.searchParams.get("page") || 0);
+  const startAt = Number(request.nextUrl.searchParams.get("startat") || 0);
   const pastCount = Number(request.nextUrl.searchParams.get("past_count") || 0);
+  const isHotload = !!request.nextUrl.searchParams.get("hotload");
 
   const itemsPerPage = 10;
-  let skip = page * itemsPerPage,
-    take = itemsPerPage + 1;
+  let skip = isHotload ? 0 : startAt,
+    take = isHotload ? 0 : (itemsPerPage + 1);
 
   let whereClause: any = {};
   if (searchQuery) {
@@ -119,7 +120,9 @@ export async function GET(request: NextRequest) {
   let eventsCount = await prismaClient.events.count({
     where: whereClause,
   });
-  if (pastCount && pastCount < eventsCount) {
+  if(isHotload) {
+    take = eventsCount - pastCount
+  } else if (pastCount && pastCount < eventsCount) {
     skip += eventsCount - pastCount;
   }
   let eventsFiltered = await prismaClient.events.findMany({
