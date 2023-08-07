@@ -1,11 +1,13 @@
 "use client";
 import { useState } from "react";
+import Export from "./Export";
 
 export default function SearchBar(props: {
   onStartSearch: Function;
   onSearch: Function;
   setIsLive: Function;
   isLive: Boolean;
+  url: string;
 }) {
   const [currSearch, setCurrSearch] = useState("");
   const [searchTimeout, setSearchTimeout] = useState(0 as any);
@@ -27,6 +29,7 @@ export default function SearchBar(props: {
             );
           }}
         />
+        <Export url={props.url} />
         <button
           onClick={() => props.setIsLive(!props.isLive)}
           className="border-solid border-0 border-l px-3 py-2 bg-transparent h-full flex"

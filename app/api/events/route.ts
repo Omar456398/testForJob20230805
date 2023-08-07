@@ -64,10 +64,11 @@ export async function GET(request: NextRequest) {
   const startAt = Number(request.nextUrl.searchParams.get("startat") || 0);
   const pastCount = Number(request.nextUrl.searchParams.get("past_count") || 0);
   const isHotload = !!request.nextUrl.searchParams.get("hotload");
+  const isGetAll = !!request.nextUrl.searchParams.get("getall"); 
 
   const itemsPerPage = 10;
-  let skip = isHotload ? 0 : startAt,
-    take = isHotload ? 0 : (itemsPerPage + 1);
+  let skip = isHotload ? undefined : startAt,
+    take = isHotload ? 0 : isGetAll ? undefined : (itemsPerPage + 1);
 
   let whereClause: any = {};
   if (searchQuery) {
@@ -122,7 +123,7 @@ export async function GET(request: NextRequest) {
   });
   if(isHotload) {
     take = eventsCount - pastCount
-  } else if (pastCount && pastCount < eventsCount) {
+  } else if (pastCount && pastCount < eventsCount && typeof skip === 'number') {
     skip += eventsCount - pastCount;
   }
   let eventsFiltered = await prismaClient.events.findMany({

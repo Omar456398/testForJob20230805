@@ -7,6 +7,7 @@ import SearchBar from "@/components/SearchBar";
 import EmptyStringGray from "@/components/EmptyStringGray";
 import useSWR, { mutate } from "swr";
 import { LogData } from "@/components/types/general";
+import Head from "next/head";
 
 const dataObj: any = {};
 
@@ -86,7 +87,11 @@ export default function Home() {
   }, [search, startAt]);
 
   return (
-    <div className="w-full">
+    <div className="instts-main-app-window-wrapper">
+      <Head>
+        <meta name="description" content="Instalog main page." />
+        <meta name="viewport" content="width=1220px, initial-scale=1" />
+      </Head>
       <div className="instts-main-app-window rounded-2xl border border-solid border-gray-100 overflow-visible">
         <div className="bg-gray-100 rounded-t-2xl">
           <SearchBar
@@ -99,6 +104,7 @@ export default function Home() {
             onStartSearch={() => {
               setIsLoadingFake(true);
             }}
+            url={`/api/events?hotload=1&q=${dataObj.search}&getall=1`}
             isLive={isHotloadEnabled}
             setIsLive={setIsHotloadEnabled}
           />

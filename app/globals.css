@@ -10,6 +10,11 @@
   min-width: 1080px;
 }
 
+.instts-main-app-window-wrapper {
+  width: calc(100%);
+  min-width: 1220px;
+}
+
 .pointer-events-none-w-children,
 .pointer-events-none-w-children * {
   pointer-events: none;
